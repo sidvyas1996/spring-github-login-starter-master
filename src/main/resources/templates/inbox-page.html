@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>Inbox App</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+    <style>
+        .container {
+            display: grid;
+
+            grid-template-areas:
+                "header header header"
+                "nav content content"
+                "footer footer footer";
+
+            grid-template-columns: 200px 1fr 200px;
+            grid-template-rows: auto 1fr auto;
+            grid-gap: 10px;
+
+            height: 100vh;
+                    }
+
+                    header {
+                    grid-area: header;
+                    }
+
+                    nav {
+                    grid-area: nav;
+                    margin-left: 0.5rem;
+                    }
+
+                    main {
+                    grid-area: content;
+                    }
+
+                    aside {
+                    grid-area: side;
+                    margin-right: 0.5rem;
+                    }
+
+                    footer {
+                    grid-area: footer;
+                    }
+         
+
+    </style>
+    <base href="/" />
+  </head>
+  <body>
+      <div class="container">
+        <header>
+            <h1>Hello,Name</h1>
+        </header>
+      
+        <nav>
+          <div th:insert="components/folder-list.html :: folder-list (panelName = 'Folders', folders=${defaultFolders})"></div>           
+          
+          <div th:insert="components/folder-list.html :: folder-list (panelName = 'User Folders', folders=${userFolders})"></div>           
+
+        </nav>
+      
+        <main>
+           
+                <div class="card" th:if="${emailList}">
+                    <div class="card-header" th:text="${folderName}"></div>
+                    <div class="card-body">
+                        <div class="list-group">
+                            <a th:each="message : ${emailList}" 
+                            th:href="@{'/emails/'+${message.key.timeUUID}}" class="list-group-item list-group-item-action">
+                              <div class="d-flex w-100 justify-content-between">
+                                <h5 class="mb-1" th:text="${message.subject}">List group item heading</h5>
+                                <small th:text="${message.agoTimeString}">3 days ago</small>
+                              </div>
+                              <p class="mb-1" th:text="${message.to}">Some placeholder content in a paragraph.</p>
+                              <small>And some small print.</small>
+                            </a>
+                          </div>
+                    </div>
+        </main>
+      
+           
+        <footer>
+          <!-- Footer content -->
+        </footer>
+      </div>
+      
+    
+</div>
+
+    
+  </body>
+</html>
